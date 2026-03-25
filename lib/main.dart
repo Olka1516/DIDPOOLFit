@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+//import 'package:flutter_application_1/Pages/profile_page.dart';
+// import 'Pages/welcome_page.dart';
+// import 'Pages/onboarding_page.dart';
+// import 'Pages/register_page.dart';
+import 'Pages/login_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,6 +22,10 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         useMaterial3: true,
       ),
+      // home: const WelcomePage(),
+      // home: const OnboardingPage(),
+      // home: const RegisterPage(),
+      home: const LoginPage(),
     );
   }
 }
