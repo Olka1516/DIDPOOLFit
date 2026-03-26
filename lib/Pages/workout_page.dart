@@ -32,11 +32,7 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        BackButtonWidget(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
+                        BackButtonWidget(onTap: () {}),
 
                         const Spacer(),
 

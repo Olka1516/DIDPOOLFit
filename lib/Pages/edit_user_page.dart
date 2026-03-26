@@ -32,11 +32,7 @@ class _EditPageState extends State<EditPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        BackButtonWidget(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                        ),
+                        BackButtonWidget(onTap: () {}),
 
                         const Spacer(),
 

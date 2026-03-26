@@ -5,7 +5,7 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final bool isObscure;
   final IconData? prefixIcon;
-  final String? prefixIconPath; // <- нове поле
+  final String? prefixIconPath;
 
   const CustomTextField({
     Key? key,
