@@ -32,7 +32,11 @@ class _EditPageState extends State<EditPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        BackButtonWidget(onTap: () {}),
+                        BackButtonWidget(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/home');
+                          },
+                        ),
 
                         const Spacer(),
 
@@ -64,7 +68,13 @@ class _EditPageState extends State<EditPage> {
 
                 Column(
                   children: [
-                    CustomButton(text: "Save", width: 600, onTap: () {}),
+                    CustomButton(
+                      text: "Save",
+                      width: 600,
+                      onTap: () {
+                        Navigator.pushNamed(context, '/profile');
+                      },
+                    ),
                   ],
                 ),
               ],

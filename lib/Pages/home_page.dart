@@ -32,9 +32,15 @@ class _HomePageState extends State<HomePage> {
           ? null
           : CustomAppBar(
               currentIndex: 0,
-              onHomeTap: () {},
-              onPlusTap: () {},
-              onProfileTap: () {},
+              onHomeTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              onPlusTap: () {
+                Navigator.pushNamed(context, '/workoutPage');
+              },
+              onProfileTap: () {
+                Navigator.pushNamed(context, '/profile');
+              },
             ),
       body: Center(
         child: Container(
@@ -80,9 +86,16 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: isMobile
           ? CustomAppBar(
               currentIndex: 0,
-              onHomeTap: () {},
-              onPlusTap: () {},
-              onProfileTap: () {},
+              onHomeTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              onPlusTap: () {
+                Navigator.pushNamed(context, '/workoutPage');
+              },
+              onProfileTap: () {
+                Navigator.pushNamed(context, '/profile');
+              },
+              isBottom: true,
             )
           : null,
     );

@@ -41,9 +41,15 @@ class _ProfilePageState extends State<ProfilePage> {
           ? null
           : CustomAppBar(
               currentIndex: 1,
-              onHomeTap: () {},
-              onPlusTap: () {},
-              onProfileTap: () {},
+              onHomeTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              onPlusTap: () {
+                Navigator.pushNamed(context, '/workoutPage');
+              },
+              onProfileTap: () {
+                Navigator.pushNamed(context, '/profile');
+              },
             ),
 
       body: Center(
@@ -56,7 +62,11 @@ class _ProfilePageState extends State<ProfilePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  BackButtonWidget(onTap: () {}),
+                  BackButtonWidget(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/home');
+                    },
+                  ),
                   const Spacer(),
                   const Text(
                     "Profile",
@@ -68,6 +78,21 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   const Spacer(),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: CircleAvatar(
+                      radius: 24,
+                      backgroundColor: Color(0xFF6B50F6),
+                      child: IconButton(
+                        icon: SvgPicture.asset(
+                          "assets/images/icons/logout.svg",
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/welcome');
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 35),
@@ -112,7 +137,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     text: "Edit",
                     width: 160,
                     verticalPadding: 6,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/editPage');
+                    },
                   ),
                 ],
               ),
@@ -141,9 +168,16 @@ class _ProfilePageState extends State<ProfilePage> {
       bottomNavigationBar: isMobile
           ? CustomAppBar(
               currentIndex: 1,
-              onHomeTap: () {},
-              onPlusTap: () {},
-              onProfileTap: () {},
+              onHomeTap: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              onPlusTap: () {
+                Navigator.pushNamed(context, '/workoutPage');
+              },
+              onProfileTap: () {
+                Navigator.pushNamed(context, '/profile');
+              },
+              isBottom: true,
             )
           : null,
     );

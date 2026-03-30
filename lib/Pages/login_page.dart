@@ -96,12 +96,20 @@ class _LoginPageState extends State<LoginPage> {
 
                 Column(
                   children: [
-                    CustomButton(text: "Login", width: 600, onTap: () {}),
+                    CustomButton(
+                      text: "Login",
+                      width: 600,
+                      onTap: () {
+                        Navigator.pushNamed(context, '/home');
+                      },
+                    ),
 
                     const SizedBox(height: 22),
 
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/register');
+                      },
                       style: ButtonStyle(
                         overlayColor: MaterialStateProperty.all(
                           Colors.transparent,

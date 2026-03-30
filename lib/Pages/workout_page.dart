@@ -32,7 +32,11 @@ class _WorkoutPageState extends State<WorkoutPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        BackButtonWidget(onTap: () {}),
+                        BackButtonWidget(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/home');
+                          },
+                        ),
 
                         const Spacer(),
 
@@ -62,7 +66,13 @@ class _WorkoutPageState extends State<WorkoutPage> {
 
                 Column(
                   children: [
-                    CustomButton(text: "Save", width: 600, onTap: () {}),
+                    CustomButton(
+                      text: "Save",
+                      width: 600,
+                      onTap: () {
+                        Navigator.pushNamed(context, '/home');
+                      },
+                    ),
                   ],
                 ),
               ],

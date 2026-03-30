@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   smooth_page_indicator: ^2.0.1
   flutter_svg: ^2.0.7
+  loading_animation_widget:
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
     - assets/images/icons/home.svg
     - assets/images/icons/home_active.svg
     - assets/images/icons/lock.svg
+    - assets/images/icons/logout.svg
     - assets/images/icons/phone.svg
     - assets/images/icons/plus.svg
     - assets/images/icons/profile.svg

@@ -79,12 +79,20 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 Column(
                   children: [
-                    CustomButton(text: "Register", width: 600, onTap: () {}),
+                    CustomButton(
+                      text: "Register",
+                      width: 600,
+                      onTap: () {
+                        Navigator.pushNamed(context, '/home');
+                      },
+                    ),
 
                     const SizedBox(height: 22),
 
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
                       style: ButtonStyle(
                         overlayColor: MaterialStateProperty.all(
                           Colors.transparent,

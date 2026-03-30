@@ -42,7 +42,13 @@ class WelcomePage extends StatelessWidget {
 
             const SizedBox(height: 46),
 
-            CustomButton(text: "Get Started", width: 315, onTap: () {}),
+            CustomButton(
+              text: "Get Started",
+              width: 315,
+              onTap: () {
+                Navigator.pushNamed(context, '/onboarding');
+              },
+            ),
           ],
         ),
       ),
