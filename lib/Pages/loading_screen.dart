@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'welcome_page.dart';
+import 'home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -14,15 +16,27 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     super.initState();
-    _navigateToWelcome();
+    _listenAuthAndNavigate();
   }
 
-  Future<void> _navigateToWelcome() async {
-    await Future.delayed(const Duration(seconds: 3));
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const WelcomePage()),
-    );
+  void _listenAuthAndNavigate() {
+    Future.delayed(Duration.zero, () {
+      final auth = FirebaseAuth.instance;
+      auth.authStateChanges().listen((user) {
+        if (!mounted) return;
+        if (user != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomePage()),
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const WelcomePage()),
+          );
+        }
+      });
+    });
   }
 
   @override

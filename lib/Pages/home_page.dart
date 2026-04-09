@@ -1,10 +1,13 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../Components/custom_app_bar.dart';
 import '../Components/custom_list.dart';
 import '../Components/text_field.dart';
+import '../Components/empty_state.dart';
+import '../Services/firestore_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,17 +17,61 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _firestoreService = FirestoreService();
+  String _searchQuery = '';
+
+  User? get user => FirebaseAuth.instance.currentUser;
+
+  Widget _buildWorkoutList(String uid) {
+    return StreamBuilder<List<Map<String, String>>>(
+      stream: _firestoreService.getWorkouts(uid),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return const Center(
+            child: Text('Failed to load workouts'),
+          );
+        }
+
+        final exercises = snapshot.data ?? [];
+        final filteredExercises = exercises.where((exercise) {
+          final name = (exercise['name'] ?? '').toLowerCase();
+          return name.contains(_searchQuery.toLowerCase());
+        }).toList();
+
+        if (filteredExercises.isEmpty) {
+          return const EmptyState();
+        }
+
+        return CustomList(exercises: filteredExercises);
+      },
+    );
+  }
+
+  Widget _buildUserName() {
+    return StreamBuilder<String?>(
+      stream: _firestoreService.getUserFullName(user!.uid),
+      builder: (context, snapshot) {
+        final fullName = snapshot.data;
+        return Text(
+          fullName ?? 'User',
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.black,
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
-
-    final exercises = [
-      {'name': 'Bench Press', 'weight': '45 kg'},
-      {'name': 'Squat', 'weight': '60 kg'},
-      {'name': 'Deadlift', 'weight': '70 kg'},
-      {'name': 'Shoulder Press', 'weight': '25 kg'},
-      {'name': 'Bicep Curl', 'weight': '12 kg'},
-    ];
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -62,23 +109,24 @@ class _HomePageState extends State<HomePage> {
 
               const SizedBox(height: 5),
 
-              const Text(
-                'Olka Korolchuk',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
+              _buildUserName(),
 
               const SizedBox(height: 30),
 
-              CustomTextField(labelText: "Search", isObscure: true),
+              CustomTextField(
+                labelText: "Search",
+                onChanged: (value) {
+                  setState(() => _searchQuery = value.trim());
+                },
+              ),
 
               const SizedBox(height: 24),
 
-              Expanded(child: CustomList(exercises: exercises)),
+              Expanded(
+                child: user == null
+                    ? const EmptyState()
+                    : _buildWorkoutList(user!.uid),
+              ),
             ],
           ),
         ),

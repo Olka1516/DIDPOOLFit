@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Components/custom_action_button.dart';
 import '../Components/text_field.dart';
+import '../Services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,6 +13,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
+  final AuthService _authService = AuthService();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter email and password')),
+      );
+      return;
+    }
+    setState(() => _isLoading = true);
+    try {
+      await _authService.signInWithEmail(email: email, password: password);
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/home');
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? 'Login failed')),
+      );
+    } catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unexpected error. Try again.')),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,18 +91,21 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     SizedBox(height: 29),
-
-                    CustomTextField(
-                      labelText: "Email",
-                      prefixIconPath: "assets/images/icons/email.svg",
-                    ),
-                    SizedBox(height: 14),
-                    CustomTextField(
-                      labelText: "Password",
-                      isObscure: true,
-                      prefixIconPath: "assets/images/icons/lock.svg",
-                    ),
                   ],
+                ),
+
+                CustomTextField(
+                  labelText: "Email",
+                  prefixIconPath: "assets/images/icons/email.svg",
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                const SizedBox(height: 14),
+                CustomTextField(
+                  labelText: "Password",
+                  isObscure: true,
+                  prefixIconPath: "assets/images/icons/lock.svg",
+                  controller: _passwordController,
                 ),
 
                 SizedBox(height: 10),
@@ -96,13 +139,13 @@ class _LoginPageState extends State<LoginPage> {
 
                 Column(
                   children: [
-                    CustomButton(
-                      text: "Login",
-                      width: 600,
-                      onTap: () {
-                        Navigator.pushNamed(context, '/home');
-                      },
-                    ),
+                    _isLoading
+                        ? const CircularProgressIndicator()
+                        : CustomButton(
+                            text: "Login",
+                            width: 600,
+                            onTap: _handleLogin,
+                          ),
 
                     const SizedBox(height: 22),
 

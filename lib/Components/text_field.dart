@@ -6,6 +6,9 @@ class CustomTextField extends StatelessWidget {
   final bool isObscure;
   final IconData? prefixIcon;
   final String? prefixIconPath;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final TextInputType? keyboardType;
 
   const CustomTextField({
     Key? key,
@@ -13,11 +16,17 @@ class CustomTextField extends StatelessWidget {
     this.isObscure = false,
     this.prefixIcon,
     this.prefixIconPath,
+    this.controller,
+    this.onChanged,
+    this.keyboardType,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
+      onChanged: onChanged,
+      keyboardType: keyboardType,
       obscureText: isObscure,
       style: const TextStyle(
         fontFamily: 'Poppins',
